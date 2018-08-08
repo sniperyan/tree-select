@@ -589,7 +589,28 @@ class Select extends React.Component {
     this.triggerChange(missValueList, newValueList, extraInfo);
   };
 
+  //节点选择回调
   onTreeNodeSelect = (_, nodeEventInfo) => {
+
+    // console.log(this.refs.popup)
+
+    let expandedKeyList = this.refs.popup.getBasePopRef().getExpandedKeyList() || [];
+    // console.log("展开的"+expandedKeyList)
+    
+    // console.log('当前的'+_)
+
+    //判断是否是展开还是收缩
+    let filterList = expandedKeyList.filter(item => item != _[0])
+    if(filterList.length === expandedKeyList.length){
+      filterList = filterList.concat(_);
+    }
+    this.refs.popup.getBasePopRef().onTreeExpand(filterList);
+    // console.log('过滤后的'+filterList)
+    // console.log(nodeEventInfo.node.props.children)
+    if(nodeEventInfo.node.props.children.length>0){
+      return 
+    }
+    
     const { treeCheckable, multiple } = this.props;
     if (treeCheckable) return;
 
@@ -633,7 +654,7 @@ class Select extends React.Component {
         keyList = Array.from(
           new Set([
             ...oriKeyList,
-            ...checkedNodeList.map(({ props: { value } }) => valueEntities[value].key),
+            checkedNodeList.map(({ props: { value } }) => valueEntities[value].key),
           ]),
         );
 
@@ -787,6 +808,7 @@ class Select extends React.Component {
    * 2. Fire `onChange` event to user.
    */
   triggerChange = (missValueList, valueList, extraInfo = {}) => {
+    console.log('triggerChange')
     const { valueEntities } = this.state;
     const { onChange, disabled } = this.props;
 
@@ -881,6 +903,7 @@ class Select extends React.Component {
     const Popup = isMultiple ? MultiplePopup : SinglePopup;
     const $popup = (
       <Popup
+        ref="popup"
         {...passProps}
         onTreeExpanded={this.delayForcePopupAlign}
         treeNodes={treeNodes}

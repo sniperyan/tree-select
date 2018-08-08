@@ -96,8 +96,22 @@ class BasePopup extends React.Component {
     return newState;
   }
 
+  //返回展开的key List
+  getExpandedKeyList(){
+    return this.state.expandedKeyList
+  }
+
+  //兼容 MultiplePopup
+  getBasePopRef(){
+    return this;
+
+  }
+
+  //伸缩展开
   onTreeExpand = (expandedKeyList) => {
     const { onTreeExpanded } = this.props;
+    // console.log(expandedKeyList)
+    // console.log(onTreeExpanded)
     this.setState({ expandedKeyList }, onTreeExpanded);
   };
 

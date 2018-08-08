@@ -62,10 +62,16 @@ class SinglePopup extends React.Component {
     );
   };
 
+  //获取基础的ref
+  getBasePopRef(){
+    return this.refs.basePopRef
+  }
+
   render() {
     return (
       <BasePopup
         {...this.props}
+        ref="basePopRef"
         renderSearch={this.renderSearch}
       />
     );
