@@ -808,7 +808,7 @@ class Select extends React.Component {
    * 2. Fire `onChange` event to user.
    */
   triggerChange = (missValueList, valueList, extraInfo = {}) => {
-    console.log('triggerChange')
+    // console.log('triggerChange')
     const { valueEntities } = this.state;
     const { onChange, disabled } = this.props;
 
