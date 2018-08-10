@@ -827,7 +827,7 @@ class Select extends React.Component {
     // selectorValueList = selectorValueList[0]
     
     if (!('value' in this.props)) {
-      console.log(selectorValueList)
+      // console.log(selectorValueList)
       this.setState({
         missValueList,
         valueList,
