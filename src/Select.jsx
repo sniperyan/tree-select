@@ -47,7 +47,19 @@ import {
 } from './util';
 import { valueProp } from './propTypes';
 import SelectNode from './SelectNode';
-import { Object } from 'es6-shim';
+
+/**
+   * 过滤掉value重复的值
+   * @param {} list   {value,label}
+   */
+  function filterSameValue(list){
+    let values = {};
+    list.forEach(item =>{
+      values[item.value] = item
+    });
+    return (Object.keys(values).map(item=>values[item]))
+
+  }
 
 class Select extends React.Component {
   static propTypes = {
@@ -318,6 +330,12 @@ class Select extends React.Component {
         nextProps,
         newState.valueEntities || prevState.valueEntities,
       );
+
+      
+
+      newState.selectorValueList = filterSameValue(newState.selectorValueList)
+      
+
     }
 
     // [Legacy] To align with `Select` component,
@@ -359,7 +377,7 @@ class Select extends React.Component {
 
     // Checked Strategy
     processState('showCheckedStrategy', () => {
-      newState.selectorValueList = newState.selectorValueList || formatSelectorValue(
+      newState.selectorValueList = newState.selectorValueList && filterSameValue(newState.selectorValueList) || formatSelectorValue(
         newState.valueList || prevState.valueList,
         nextProps,
         newState.valueEntities || prevState.valueEntities,
@@ -815,19 +833,21 @@ class Select extends React.Component {
 
     if (disabled) return;
 
+    let selectorValueList = this.state.selectorValueList;
+    selectorValueList = filterSameValue(selectorValueList);
+
     // Trigger
     const extra = {
       // [Legacy] Always return as array contains label & value
-      preValue: this.state.selectorValueList.map(({ label, value }) => ({ label, value })),
+      preValue: selectorValueList.map(({ label, value }) => ({ label, value })),
       ...extraInfo,
     };
 
     // Format value by `treeCheckStrictly`
-    let selectorValueList = formatSelectorValue(valueList, this.props, valueEntities);
-    // selectorValueList = selectorValueList[0]
+    selectorValueList = formatSelectorValue(valueList, this.props, valueEntities);
+    selectorValueList = filterSameValue(selectorValueList);
     
     if (!('value' in this.props)) {
-      // console.log(selectorValueList)
       this.setState({
         missValueList,
         valueList,
@@ -878,18 +898,7 @@ class Select extends React.Component {
 
   // ===================== Render =====================
 
-  /**
-   * 过滤掉value重复的值
-   * @param {} list   {value,label}
-   */
-  filterSameValue(list){
-    let values = {};
-    list.forEach(item =>{
-      values[item.value] = item
-    });
-    return (Object.keys(values).map(item=>values[item]))
-
-  }
+  
 
   render() {
     const {
@@ -903,7 +912,7 @@ class Select extends React.Component {
     const isMultiple = this.isMultiple();
 
     let valueArr = [...missValueList, ...selectorValueList];
-    valueArr = this.filterSameValue(valueArr);
+    valueArr = filterSameValue(valueArr);
     const passProps = {
       ...this.props,
       isMultiple,
@@ -938,7 +947,6 @@ class Select extends React.Component {
     const $selector = (
       <Selector
         {...passProps}
-        // selectorValueList={[].concat(selectorValueList[0])}
         ref={this.selectorRef}
         onChoiceAnimationLeave={this.forcePopupAlign}
       />
