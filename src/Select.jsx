@@ -47,6 +47,7 @@ import {
 } from './util';
 import { valueProp } from './propTypes';
 import SelectNode from './SelectNode';
+import { Object } from 'es6-shim';
 
 class Select extends React.Component {
   static propTypes = {
@@ -822,15 +823,18 @@ class Select extends React.Component {
     };
 
     // Format value by `treeCheckStrictly`
-    const selectorValueList = formatSelectorValue(valueList, this.props, valueEntities);
-
+    let selectorValueList = formatSelectorValue(valueList, this.props, valueEntities);
+    // selectorValueList = selectorValueList[0]
+    
     if (!('value' in this.props)) {
+      console.log(selectorValueList)
       this.setState({
         missValueList,
         valueList,
         selectorValueList,
       });
     }
+    
 
     // Only do the logic when `onChange` function provided
     if (onChange) {
@@ -874,6 +878,19 @@ class Select extends React.Component {
 
   // ===================== Render =====================
 
+  /**
+   * 过滤掉value重复的值
+   * @param {} list   {value,label}
+   */
+  filterSameValue(list){
+    let values = {};
+    list.forEach(item =>{
+      values[item.value] = item
+    });
+    return (Object.keys(values).map(item=>values[item]))
+
+  }
+
   render() {
     const {
       valueList, missValueList, selectorValueList,
@@ -885,11 +902,13 @@ class Select extends React.Component {
     const { prefixCls } = this.props;
     const isMultiple = this.isMultiple();
 
+    let valueArr = [...missValueList, ...selectorValueList];
+    valueArr = this.filterSameValue(valueArr);
     const passProps = {
       ...this.props,
       isMultiple,
       valueList,
-      selectorValueList: [...missValueList, ...selectorValueList],
+      selectorValueList: valueArr,
       valueEntities,
       keyEntities,
       searchValue,
@@ -911,10 +930,15 @@ class Select extends React.Component {
       />
     );
 
+    // console.log(passProps.keyEntities)
+    // console.log(passProps.selectorValueList)
+    // console.log(passProps.valueEntities)
+
     const Selector = isMultiple ? MultipleSelector : SingleSelector;
     const $selector = (
       <Selector
         {...passProps}
+        // selectorValueList={[].concat(selectorValueList[0])}
         ref={this.selectorRef}
         onChoiceAnimationLeave={this.forcePopupAlign}
       />

@@ -51,6 +51,118 @@ function findPath(value, data) {
   return sel;
 }
 
+const treeData = [{
+  "label": "0-0-label",
+  "value": "0-0-value",
+  "key": "0-0",
+  "disabled": false,
+  "children": [{
+    "label": "0-0-0-label",
+    "value": "0-0-0-value",
+    "key": "0-0",
+    "disabled": false,
+    "children": [{
+      "label": "1",
+      "value": "1",
+      "key": "1",
+      "disabled": false
+    }, {
+      "label": "0-0-0-1-label",
+      "value": "0-0-0-1-value",
+      "key": "0-0",
+      "disabled": true
+    }, {
+      "label": "1",
+      "value": "1",
+      "key": "1",
+      "disabled": false
+    }]
+  }, {
+    "label": "0-0-1-label",
+    "value": "0-0-1-value",
+    "key": "0-0-1",
+    "disabled": false,
+    "children": [{
+      "label": "0-0-1-0-label",
+      "value": "0-0-1-0-value",
+      "key": "0-0",
+      "disabled": false
+    }, {
+      "label": "0-0-1-1-label",
+      "value": "0-0-1-1-value",
+      "key": "0-0-1-1",
+      "disabled": false
+    }, {
+      "label": "0-0-1-2-label",
+      "value": "0-0-1-2-value",
+      "key": "0-0-1-2",
+      "disabled": false
+    }]
+  }, {
+    "label": "0-0-2-label",
+    "value": "0-0-2-value",
+    "key": "0-0-2",
+    "disabled": false
+  }]
+}, {
+  "label": "0-1-label",
+  "value": "0-1-value",
+  "key": "0-1",
+  "disabled": false,
+  "children": [{
+    "label": "0-1-0-label",
+    "value": "0-1-0-value",
+    "key": "0-1-0",
+    "disabled": false,
+    "children": [{
+      "label": "0-1-0-0-label",
+      "value": "0-1-0-0-value",
+      "key": "0-1-0-0",
+      "disabled": false
+    }, {
+      "label": "0-1-0-1-label",
+      "value": "0-1-0-1-value",
+      "key": "0-1-0-1",
+      "disabled": false
+    }, {
+      "label": "0-1-0-2-label",
+      "value": "0-1-0-2-value",
+      "key": "0-1-0-2",
+      "disabled": false
+    }]
+  }, {
+    "label": "0-1-1-label",
+    "value": "0-1-1-value",
+    "key": "0-1-1",
+    "disabled": false,
+    "children": [{
+      "label": "0-1-1-0-label",
+      "value": "0-1-1-0-value",
+      "key": "0-1-1-0",
+      "disabled": false
+    }, {
+      "label": "0-1-1-1-label",
+      "value": "0-1-1-1-value",
+      "key": "0-1-1-1",
+      "disabled": false
+    }, {
+      "label": "0-1-1-2-label",
+      "value": "0-1-1-2-value",
+      "key": "0-1-1-2",
+      "disabled": false
+    }]
+  }, {
+    "label": "0-1-2-label",
+    "value": "0-1-2-value",
+    "key": "0-1-2",
+    "disabled": false
+  }]
+}, {
+  "label": "0-2-label",
+  "value": "0-2-value",
+  "key": "0-2",
+  "disabled": false
+}]
 class Demo extends React.Component {
   state = {
     tsOpen: false,
@@ -140,7 +252,7 @@ class Demo extends React.Component {
   render() {
     return (
       <div style={{ margin: 20 }}>
-        <h2>tree-select in dialog</h2>
+        {/* <h2>tree-select in dialog</h2>
         <button className="btn btn-primary" onClick={this.onClick}>show dialog</button>
         {this.state.visible ? <Dialog
           visible={this.state.visible}
@@ -223,7 +335,7 @@ class Demo extends React.Component {
           treeNodeFilterProp="label"
           filterTreeNode={false}
           onChange={this.onChangeChildren}
-        />
+        /> */}
 
         <h2>multiple select</h2>
         <TreeSelect
@@ -235,14 +347,14 @@ class Demo extends React.Component {
           searchPlaceholder="please search"
           multiple
           value={this.state.multipleValue}
-          treeData={gData}
+          treeData={treeData}
           treeNodeFilterProp="title"
           onChange={this.onMultipleChange}
           onSelect={this.onSelect}
           allowClear
         />
 
-        <h2>check select</h2>
+        {/* <h2>check select</h2>
         <TreeSelect
           className="check-select"
           transitionName="rc-tree-select-dropdown-slide-up"
@@ -349,7 +461,7 @@ class Demo extends React.Component {
             <TreeNode value="2same value" title="2same title" key="0-2-0" />
           </TreeNode>
           <TreeNode value="same value3" title="same title" key="0-3" />
-        </TreeSelect>
+        </TreeSelect> */}
       </div>
     );
   }
