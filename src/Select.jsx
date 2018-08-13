@@ -144,7 +144,7 @@ class Select extends React.Component {
     treeNodeFilterProp: 'value',
     treeNodeLabelProp: 'title',
     treeIcon: false,
-    notFoundContent: 'Not Found',
+    notFoundContent: '无匹配结果',   //无数据提示
   };
 
   constructor(props) {
